@@ -1,0 +1,135 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#0f0f0f;
+  color:white;
+  font-family:Arial,sans-serif;
+}
+
+.app{
+  max-width:700px;
+  margin:auto;
+  padding:20px;
+}
+
+header{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.card{
+  background:#1a1a1a;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.center{
+  text-align:center;
+}
+
+.vape-btn{
+  border:none;
+  background:none;
+  cursor:pointer;
+  margin:20px 0;
+}
+
+.vape-body{
+  width:220px;
+  height:60px;
+  border-radius:40px;
+  background:#2b2b2b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-weight:bold;
+}
+
+.led{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#444;
+  margin:auto;
+  margin-bottom:8px;
+}
+
+.led.active{
+  background:#00ff88;
+  box-shadow:0 0 12px #00ff88;
+}
+
+.smoke-wrap{
+  height:80px;
+  position:relative;
+}
+
+.smoke{
+  position:absolute;
+  width:18px;
+  height:18px;
+  background:rgba(255,255,255,.4);
+  border-radius:50%;
+  opacity:0;
+}
+
+.smoke.show{
+  animation:smoke 2s linear;
+}
+
+@keyframes smoke{
+  0%{
+    transform:translateY(0);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(-70px);
+    opacity:0;
+  }
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+button{
+  padding:10px 15px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+.chat-box{
+  height:250px;
+  overflow-y:auto;
+  background:#111;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
+}
+
+.chat-input{
+  display:flex;
+  gap:10px;
+}
+
+.chat-input input{
+  flex:1;
+}
+
+.ranking{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
