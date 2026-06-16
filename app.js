@@ -219,6 +219,7 @@ onSnapshot(rankingQuery, (snapshot) => {
 });
 
 let lastChatTime = 0;
+
 async function sendChat() {
   const raw = chatInput.value.trim();
 
