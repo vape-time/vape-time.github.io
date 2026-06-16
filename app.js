@@ -131,7 +131,9 @@ saveNameBtn.addEventListener("click", async () => {
 let isHolding = false;
 let holdStart = 0;
 
-vapeBtn.addEventListener("pointerdown", () => {
+vapeBtn.addEventListener("pointerdown", (e) => {
+  e.preventDefault();
+  
   isHolding = true;
   holdStart = Date.now();
 
