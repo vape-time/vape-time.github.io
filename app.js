@@ -246,20 +246,6 @@ async function sendChat() {
   chatInput.value = "";
 }
 
-lastChatTime = now;
-
-  const msg = cleanText(raw).slice(0, 80);
-
-  await addDoc(collection(db, "chats"), {
-  userId: userId,
-  name: nickname,
-  message: msg,
-  createdAt: serverTimestamp()
-});
-
-  chatInput.value = "";
-}
-
 sendChatBtn.addEventListener("click", sendChat);
 
 chatInput.addEventListener("keydown", (e) => {
