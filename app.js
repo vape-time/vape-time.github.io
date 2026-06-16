@@ -1,0 +1,152 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  increment,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  limit,
+  onSnapshot,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC_m_O-ffenAYD9ioN8GTSevgG7_nOdu8A",
+  authDomain: "vape-time-820c9.firebaseapp.com",
+  projectId: "vape-time-820c9",
+  storageBucket: "vape-time-820c9.firebasestorage.app",
+  messagingSenderId: "1031697747260",
+  appId: "1:1031697747260:web:23c56a05585efde97ba239",
+  measurementId: "G-9RZRDQQ5KC"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const vapeBtn = document.getElementById("vapeBtn");
+const led = document.getElementById("led");
+const totalCount = document.getElementById("totalCount");
+const nicknameInput = document.getElementById("nicknameInput");
+const saveNameBtn = document.getElementById("saveNameBtn");
+const currentName = document.getElementById("currentName");
+const rankingList = document.getElementById("rankingList");
+const chatBox = document.getElementById("chatBox");
+const chatInput = document.getElementById("chatInput");
+const sendChatBtn = document.getElementById("sendChatBtn");
+const vapeSound = document.getElementById("vapeSound");
+
+let nickname = localStorage.getItem("nickname") || "익명";
+currentName.textContent = nickname;
+
+const badWords = ["시발", "씨발", "병신", "ㅂㅅ", "ㅅㅂ", "좆", "개새끼", "꺼져", "죽어"];
+
+function cleanText(text) {
+  let result = text.trim();
+  badWords.forEach(word => {
+    result = result.replaceAll(word, "***");
+  });
+  return result;
+}
+
+saveNameBtn.addEventListener("click", () => {
+  const name = nicknameInput.value.trim();
+
+  if (name.length < 2) {
+    alert("닉네임은 2글자 이상");
+    return;
+  }
+
+  nickname = cleanText(name).slice(0, 12);
+  localStorage.setItem("nickname", nickname);
+  currentName.textContent = nickname;
+  nicknameInput.value = "";
+});
+
+vapeBtn.addEventListener("click", async () => {
+  led.classList.add("active");
+  document.querySelectorAll(".smoke").forEach(s => {
+    s.classList.remove("show");
+    void s.offsetWidth;
+    s.classList.add("show");
+  });
+
+  setTimeout(() => led.classList.remove("active"), 600);
+
+  try {
+    vapeSound.currentTime = 0;
+    vapeSound.play();
+  } catch {}
+
+  const counterRef = doc(db, "site", "counter");
+  const userRef = doc(db, "ranking", nickname);
+
+  await setDoc(counterRef, { total: increment(1) }, { merge: true });
+  await setDoc(userRef, {
+    name: nickname,
+    count: increment(1),
+    updatedAt: serverTimestamp()
+  }, { merge: true });
+});
+
+onSnapshot(doc(db, "site", "counter"), (snap) => {
+  totalCount.textContent = snap.exists() ? snap.data().total || 0 : 0;
+});
+
+const rankingQuery = query(collection(db, "ranking"), orderBy("count", "desc"), limit(10));
+
+onSnapshot(rankingQuery, (snapshot) => {
+  rankingList.innerHTML = "";
+
+  let rank = 1;
+  snapshot.forEach(docSnap => {
+    const data = docSnap.data();
+    const div = document.createElement("div");
+    div.textContent = `${rank}. ${data.name} - ${data.count}회`;
+    rankingList.appendChild(div);
+    rank++;
+  });
+});
+
+async function sendChat() {
+  const raw = chatInput.value.trim();
+  if (!raw) return;
+
+  const msg = cleanText(raw).slice(0, 80);
+
+  await addDoc(collection(db, "chats"), {
+    name: nickname,
+    message: msg,
+    createdAt: serverTimestamp()
+  });
+
+  chatInput.value = "";
+}
+
+sendChatBtn.addEventListener("click", sendChat);
+
+chatInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") sendChat();
+});
+
+const chatQuery = query(collection(db, "chats"), orderBy("createdAt", "desc"), limit(30));
+
+onSnapshot(chatQuery, (snapshot) => {
+  chatBox.innerHTML = "";
+
+  const messages = [];
+  snapshot.forEach(docSnap => messages.push(docSnap.data()));
+  messages.reverse();
+
+  messages.forEach(data => {
+    const div = document.createElement("div");
+    div.textContent = `${data.name}: ${data.message}`;
+    chatBox.appendChild(div);
+  });
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
