@@ -185,3 +185,24 @@ button{
 .vape-btn {
   touch-action: none !important;
 }
+.rank-item {
+  display: flex;
+  justify-content: space-between;
+  background: #111;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.rank-num {
+  font-weight: bold;
+}
+
+.rank-name {
+  flex: 1;
+  text-align: left;
+  margin-left: 12px;
+}
+
+.rank-count {
+  color: #aaa;
+}
