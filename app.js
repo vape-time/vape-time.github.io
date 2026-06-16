@@ -102,16 +102,11 @@ saveNameBtn.addEventListener("click", async () => {
     return;
   }
 
-  const q = query(collection(db, "ranking"), where("name", "==", name));
-  const snap = await getDocs(q);
+  const nameKey = name.toLowerCase();
+  const reservedRef = doc(db, "reservedNames", nameKey);
+  const reservedSnap = await getDoc(reservedRef);
 
-  let duplicated = false;
-
-  snap.forEach(docSnap => {
-    if (docSnap.id !== userId) duplicated = true;
-  });
-
-  if (duplicated) {
+  if (reservedSnap.exists() && reservedSnap.data().userId !== userId) {
     alert("이미 사용 중인 닉네임이야");
     return;
   }
@@ -121,9 +116,15 @@ saveNameBtn.addEventListener("click", async () => {
   currentName.textContent = nickname;
   nicknameInput.value = "";
 
+  await setDoc(reservedRef, {
+    name: nickname,
+    userId: userId,
+    createdAt: serverTimestamp()
+  }, { merge: true });
+
   await setDoc(doc(db, "ranking", userId), {
     name: nickname,
-    count: 0,
+    count: increment(0),
     updatedAt: serverTimestamp()
   }, { merge: true });
 });
