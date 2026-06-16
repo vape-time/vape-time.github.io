@@ -231,7 +231,19 @@ async function sendChat() {
     alert("채팅은 3초에 한 번만 가능");
     return;
   }
+lastChatTime = now;
 
+const msg = cleanText(raw).slice(0, 80);
+
+await addDoc(collection(db, "chats"), {
+  userId: userId,
+  name: nickname,
+  message: msg,
+  createdAt: serverTimestamp()
+});
+
+chatInput.value = "";
+}
 sendChatBtn.addEventListener("click", sendChat);
 
 chatInput.addEventListener("keydown", (e) => {
