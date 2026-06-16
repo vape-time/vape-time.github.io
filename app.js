@@ -43,14 +43,46 @@ const vapeSound = document.getElementById("vapeSound");
 let nickname = localStorage.getItem("nickname") || "익명";
 currentName.textContent = nickname;
 
-const badWords = ["시발", "씨발", "병신", "ㅂㅅ", "ㅅㅂ", "좆", "개새끼", "꺼져", "죽어"];
+const badPatterns = [
+  /시+발+/gi,
+  /씨+발+/gi,
+  /ㅅ+\s*ㅂ+/gi,
+  /병\s*신/gi,
+  /ㅂ\s*ㅅ/gi,
+  /좆/gi,
+  /존\s*나/gi,
+  /ㅈ\s*ㄴ/gi,
+
+  /섹\s*스/gi,
+  /섹1스/gi,
+  /s\s*e\s*x/gi,
+  /s3x/gi,
+  /야\s*스/gi,
+
+  /보\s*지/gi,
+  /자\s*지/gi,
+
+  /니\s*애\s*미/gi,
+  /느\s*금/gi,
+  /애\s*미/gi,
+
+  /죽\s*어/gi,
+  /꺼\s*져/gi
+];
 
 function cleanText(text) {
-  let result = text.trim();
-  badWords.forEach(word => {
-    result = result.replaceAll(word, "***");
+
+  let result = text
+    .replaceAll("1", "ㅣ")
+    .replaceAll("!", "ㅣ")
+    .replaceAll("3", "e")
+    .replaceAll("0", "o");
+
+  badPatterns.forEach(pattern => {
+    result = result.replace(pattern, "***");
   });
-  return result;
+
+  return result.trim();
 }
 
 saveNameBtn.addEventListener("click", () => {
