@@ -159,3 +159,16 @@ button{
     transform: translateY(-90px) translateX(25px) scale(2.2);
   }
 }
+.vape-btn,
+.vape-btn *,
+.vape-body,
+.vape-body * {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.vape-btn {
+  touch-action: manipulation;
+}
