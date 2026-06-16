@@ -171,23 +171,6 @@ function showMistParticles(amount) {
   }
 }
 
-  setTimeout(() => led.classList.remove("active"), 600);
-
-  try {
-    vapeSound.currentTime = 0;
-    vapeSound.play();
-  } catch {}
-
-  const counterRef = doc(db, "site", "counter");
-  const userRef = doc(db, "ranking", nickname);
-
-  await setDoc(counterRef, { total: increment(1) }, { merge: true });
-  await setDoc(userRef, {
-    name: nickname,
-    count: increment(1),
-    updatedAt: serverTimestamp()
-  }, { merge: true });
-});
 
 onSnapshot(doc(db, "site", "counter"), (snap) => {
   totalCount.textContent = snap.exists() ? snap.data().total || 0 : 0;
