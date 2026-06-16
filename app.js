@@ -15,6 +15,8 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
+alert("app.js 실행됨");
+
 const firebaseConfig = {
   apiKey: "AIzaSyCwTMsX9hJnBBPbNOArjDrXdZ84RtPokIE",
   authDomain: "vape-time-cb199.firebaseapp.com",
