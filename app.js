@@ -217,6 +217,7 @@ onSnapshot(rankingQuery, (snapshot) => {
     const data = docSnap.data();
 
     if (!data.name || !data.count || data.count <= 0) return;
+if (rank > 10) return;
 
     const div = document.createElement("div");
     div.className = "rank-item";
