@@ -131,6 +131,7 @@ saveNameBtn.addEventListener("click", async () => {
 
 let isHolding = false;
 let holdStart = 0;
+let soundLoopTimer = null;
 
 vapeBtn.addEventListener("pointerdown", (e) => {
   e.preventDefault();
@@ -142,9 +143,18 @@ vapeBtn.addEventListener("pointerdown", (e) => {
   vapeBtn.classList.add("pressed");
 
   try {
-  vapeSound.loop = true;
+  vapeSound.loop = false;
+  vapeSound.volume = 0.4;
   vapeSound.currentTime = 0;
   vapeSound.play();
+
+  clearInterval(soundLoopTimer);
+  soundLoopTimer = setInterval(() => {
+    if (vapeSound.duration && vapeSound.currentTime > vapeSound.duration - 0.12) {
+      vapeSound.currentTime = 0.05;
+      vapeSound.play();
+    }
+  }, 30);
 } catch {}
 });
 
@@ -155,6 +165,9 @@ vapeBtn.addEventListener("pointerup", async () => {
   led.classList.remove("active");
   vapeBtn.classList.remove("pressed");
 
+  clearInterval(soundLoopTimer);
+soundLoopTimer = null;
+  
 vapeSound.pause();
 vapeSound.currentTime = 0;
 vapeSound.loop = false;
