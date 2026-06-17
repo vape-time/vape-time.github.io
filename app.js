@@ -185,6 +185,10 @@ vapeBtn.addEventListener("pointercancel", () => {
   isHolding = false;
   led.classList.remove("active");
   vapeBtn.classList.remove("pressed");
+
+  vapeSound.pause();
+vapeSound.currentTime = 0;
+vapeSound.loop = false;
 });
 
 function showMistParticles(amount) {
