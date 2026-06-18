@@ -42,6 +42,7 @@ const chatBox = document.getElementById("chatBox");
 const chatInput = document.getElementById("chatInput");
 const sendChatBtn = document.getElementById("sendChatBtn");
 const vapeSound = document.getElementById("vapeSound");
+const fogLayer = document.getElementById("fogLayer");
 
 let userId = localStorage.getItem("userId");
 
@@ -179,8 +180,8 @@ vapeSound.loop = false;
     return;
   }
 
-  const particleCount = Math.min(Math.floor(holdTime / 80), 80);
-showMistParticles(particleCount);
+  const fogPower = Math.min(holdTime / 2500, 1);
+showBigFog(fogPower);
 
   const counterRef = doc(db, "site", "counter");
   const userRef = doc(db, "ranking", userId);
@@ -223,6 +224,23 @@ function showMistParticles(amount) {
   }
 }
 
+function showBigFog(power) {
+  fogLayer.classList.remove("show");
+
+  const opacity = 0.35 + power * 0.45;
+  const scale = 1 + power * 0.45;
+
+  fogLayer.style.opacity = opacity;
+  fogLayer.style.transform = `scale(${scale})`;
+
+  void fogLayer.offsetWidth;
+  fogLayer.classList.add("show");
+
+  setTimeout(() => {
+    fogLayer.classList.remove("show");
+    fogLayer.style.opacity = 0;
+  }, 3200);
+}
 
 onSnapshot(doc(db, "site", "counter"), (snap) => {
   totalCount.textContent = snap.exists() ? snap.data().total || 0 : 0;
