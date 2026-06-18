@@ -215,19 +215,20 @@ button{
 
 .fog-layer {
   position: fixed;
-  left: -10vw;
-  top: 10vh;
-  width: 120vw;
-  height: 60vh;
+  left: -20vw;
+  top: 5vh;
+  width: 140vw;
+  height: 75vh;
   pointer-events: none;
   opacity: 0;
   z-index: 10;
-  filter: blur(28px);
+  filter: blur(24px);
   background:
-    radial-gradient(circle at 25% 45%, rgba(255,255,255,0.48), transparent 32%),
-    radial-gradient(circle at 45% 35%, rgba(255,255,255,0.42), transparent 35%),
-    radial-gradient(circle at 65% 50%, rgba(255,255,255,0.38), transparent 34%),
-    radial-gradient(circle at 80% 40%, rgba(255,255,255,0.32), transparent 36%);
+    radial-gradient(circle at 20% 45%, rgba(255,255,255,0.95), transparent 34%),
+    radial-gradient(circle at 40% 35%, rgba(255,255,255,0.9), transparent 36%),
+    radial-gradient(circle at 60% 50%, rgba(255,255,255,0.85), transparent 38%),
+    radial-gradient(circle at 80% 42%, rgba(255,255,255,0.75), transparent 40%),
+    radial-gradient(circle at 50% 65%, rgba(255,255,255,0.65), transparent 42%);
 }
 
 .fog-layer.show {
