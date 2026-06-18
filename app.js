@@ -227,8 +227,8 @@ function showMistParticles(amount) {
 function showBigFog(power) {
   fogLayer.classList.remove("show");
 
-  const opacity = 0.35 + power * 0.45;
-  const scale = 1 + power * 0.45;
+  const opacity = 0.9 + power * 0.1;
+const scale = 1.25 + power * 0.7;
 
   fogLayer.style.opacity = opacity;
   fogLayer.style.transform = `scale(${scale})`;
