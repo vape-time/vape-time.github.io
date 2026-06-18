@@ -179,8 +179,8 @@ vapeSound.loop = false;
     return;
   }
 
-  const particleCount = Math.min(Math.floor(holdTime / 250), 18);
-  showMistParticles(particleCount);
+  const particleCount = Math.min(Math.floor(holdTime / 80), 80);
+showMistParticles(particleCount);
 
   const counterRef = doc(db, "site", "counter");
   const userRef = doc(db, "ranking", userId);
